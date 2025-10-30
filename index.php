@@ -1,6 +1,30 @@
 <?php
 require_once 'banco.php';
 
+$mensagem = '';
+if (isset($_GET['msg'])) {
+    switch ($_GET['msg']) {
+        case 'success_update':
+            $mensagem = '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="bi bi-check-circle"></i> Usuário atualizado com sucesso!
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>';
+            break;
+        case 'error_not_found':
+            $mensagem = '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="bi bi-x-circle"></i> Usuário não encontrado!
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>';
+            break;
+        case 'error_update':
+            $mensagem = '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="bi bi-x-circle"></i> Erro ao atualizar usuário!
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>';
+            break;
+    }
+}
+
 try {
     $sql = "SELECT * FROM usuarios ORDER BY id DESC";
     $stmt = $pdo->query($sql);
@@ -47,6 +71,9 @@ try {
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
+        .action-buttons .btn {
+            margin: 0 2px;
+        }
     </style>
 </head>
 <body>
@@ -57,6 +84,8 @@ try {
         </div>
 
         <div class="table-container">
+            <?php echo $mensagem; ?>
+            
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h4 class="mb-0"><i class="bi bi-people"></i> Lista de Usuários</h4>
                 <a href="add.php" class="btn btn-primary btn-add">
@@ -70,9 +99,9 @@ try {
                         <thead class="table-dark">
                             <tr>
                                 <th width="10%">ID</th>
-                                <th width="40%">Nome</th>
-                                <th width="40%">E-mail</th>
-                                <th width="10%" class="text-center">Ações</th>
+                                <th width="35%">Nome</th>
+                                <th width="35%">E-mail</th>
+                                <th width="20%" class="text-center">Ações</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -81,11 +110,15 @@ try {
                                     <td><?php echo htmlspecialchars($usuario['id']); ?></td>
                                     <td><?php echo htmlspecialchars($usuario['nome']); ?></td>
                                     <td><?php echo htmlspecialchars($usuario['email']); ?></td>
-                                    <td class="text-center">
-                                        <button class="btn btn-sm btn-info" title="Editar">
+                                    <td class="text-center action-buttons">
+                                        <a href="editar.php?edit_id=<?php echo $usuario['id']; ?>" 
+                                           class="btn btn-sm btn-warning" 
+                                           title="Editar">
                                             <i class="bi bi-pencil"></i>
-                                        </button>
-                                        <button class="btn btn-sm btn-danger" title="Excluir">
+                                        </a>
+                                        <button class="btn btn-sm btn-danger" 
+                                                title="Excluir"
+                                                onclick="confirmarExclusao(<?php echo $usuario['id']; ?>)">
                                             <i class="bi bi-trash"></i>
                                         </button>
                                     </td>
@@ -110,5 +143,12 @@ try {
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function confirmarExclusao(id) {
+            if (confirm('Tem certeza que deseja excluir este usuário?')) {
+                alert('Função de exclusão será implementada em breve!');
+            }
+        }
+    </script>
 </body>
 </html>
