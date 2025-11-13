@@ -3,7 +3,7 @@
 $host = 'localhost';
 $dbname = 'crud_php';
 $username = 'root';
-$password = '';
+$password = ''; // Geralmente a senha é vazia no XAMPP
 
 try {
     

@@ -16,7 +16,30 @@ if (isset($_GET['msg'])) {
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>';
             break;
-        case 'error_update':
+            case 'error_update':
+                $mensagem = '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="bi bi-x-circle"></i> Erro ao atualizar usuário!
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>';
+                break;
+            case 'success_del':
+                $mensagem = '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="bi bi-check-circle"></i> Usuário excluído com sucesso!
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>';
+                break;
+            case 'error_del':
+                $mensagem = '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="bi bi-x-circle"></i> Erro ao excluir usuário!
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>';
+                break;
+            case 'error_no_id':
+                $mensagem = '<div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <i class="bi bi-exclamation-triangle"></i> ID de exclusão não fornecido!
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>';
+                break;
             $mensagem = '<div class="alert alert-danger alert-dismissible fade show" role="alert">
                 <i class="bi bi-x-circle"></i> Erro ao atualizar usuário!
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
@@ -144,11 +167,11 @@ try {
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        function confirmarExclusao(id) {
-            if (confirm('Tem certeza que deseja excluir este usuário?')) {
-                alert('Função de exclusão será implementada em breve!');
-            }
-        }
+	        function confirmarExclusao(id) {
+	            if (confirm('Tem certeza que deseja excluir este usuário?')) {
+	                window.location.href = 'excluir.php?delete_id=' + id;
+	            }
+	        }
     </script>
 </body>
 </html>
